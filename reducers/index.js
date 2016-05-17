@@ -1,7 +1,4 @@
-
-
 import { combineReducers } from 'redux';
-
 
 function posts(state={items:[]},action) {
   switch (action.type) {
@@ -15,8 +12,4 @@ function posts(state={items:[]},action) {
 const rootReducer = combineReducers({
   posts
 });
-
-
-
-
 export default rootReducer
