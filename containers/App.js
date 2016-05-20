@@ -5,36 +5,57 @@ import { loadPost } from '../actions'
 class App extends Component {
    constructor(props) {
      super(props)
+     this.renderList=this.renderList.bind(this)
    }
-
+  componentWillMount(){
+    this.props.loadPost();
+  }
   componentDidMount(){
     // const {dispatch}=this.props
     // dispatch(fetchPosts())
-    console.log('test');
-    this.props.loadPost()
+    //console.log('test');
+//    this.props.loadPost();
+
+
+    const {entities,topics}=this.props
+
+
+    console.log(entities)
   }
 
-  renderList(items){
-    return items.map((item)=>{
+
+
+  renderList(items,topics){
+
+    return items.map(item=>{
       return (
-        <li key={item.id}>
-            {item.title}
+        <li key={item}>
+            {topics[item].title}
         </li>
       )
     })
   }
   render() {
-    const {entities}=this.props
+
+    const {entities,topics}=this.props
+
+    //const items=[...topics]
     return (
       <div>
           <ul>
             {
               //entities
               //state
-               //this.renderList(posts.items)
                //<li>{posts.items.entities.group['1'].title}</li>
                //posts.items.result.topics.map(t=>{return (<li>posts.items.entities.topics[t].title</li>)})
               // posts.items.result.topics.map(id=>{return (<li>{posts.items.entities.group[posts.items.entities.topics[id].group].title}  {posts.items.entities.topics[id].title}</li>)})
+              //this.renderList(posts.items)
+              //renderList(...entities.topics)
+              //console.log(...entities.topics)
+
+              this.renderList(topics.ids,entities.topics)
+
+
             }
           </ul>
       </div>
@@ -43,9 +64,10 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { entities } = state
+  const { entities,topics } = state
   return {
-    entities
+    entities,
+    topics
   }
 }
 
