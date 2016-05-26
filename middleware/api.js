@@ -7,7 +7,7 @@ import { camelizeKeys } from 'humps'
 function callApi(endpoint, schema) {
 
  //debugger;
-  return fetch('http://localhost:3000/topics')
+  return fetch('https://enserver.herokuapp.com/topics')
         .then(respones=>respones.json())
         .then(json=>{
           const camelizedJson = camelizeKeys(json)
@@ -24,8 +24,8 @@ export const topic=new Schema('topics');
 export const groupSchema =new Schema('group');
 export const userSchema=new Schema('user');
 topic.define({
-   group:groupSchema,
-   user:userSchema
+   user:userSchema,
+   group:groupSchema   
  });
 
 export const Schemas={
