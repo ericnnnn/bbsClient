@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import { Schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
-
+import axios from 'axios'
 
 
 function callApi(endpoint, schema) {
@@ -20,12 +20,21 @@ function callApi(endpoint, schema) {
         .catch(e=>console.log(e))
 }
 
+function postApi(endpoint,body){
+  return axios.post(endpoint,body)
+      .then(response=>{
+        console.log(response);
+        //return response.headers.Auth
+        return response.data.id
+      })
+}
+
 export const topic=new Schema('topics');
 export const groupSchema =new Schema('group');
 export const userSchema=new Schema('user');
 topic.define({
    user:userSchema,
-   group:groupSchema   
+   group:groupSchema
  });
 
 export const Schemas={
@@ -42,6 +51,8 @@ export default store => next => action => {
   }
 
   let { endpoint } = callAPI
+  let {httpmethod}=callAPI
+
   const { schema, types } = callAPI
 
   if (typeof endpoint === 'function') {
@@ -51,7 +62,7 @@ export default store => next => action => {
   if (typeof endpoint !== 'string') {
     throw new Error('Specify a string endpoint URL.')
   }
-  if (!schema) {
+  if (httpmethod==='get'&&!schema) {
     console.log(callAPI);
     throw new Error('Specify one of the exported Schemas.')
   }
@@ -71,14 +82,26 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types
   next(actionWith({ type: requestType }))
 
-  return callApi(endpoint, schema).then(
-    response => next(actionWith({
-      response,
-      type: successType
-    })),
-    error => next(actionWith({
-      type: failureType,
-      error: error.message || 'Something bad happened'
-    }))
-  )
+
+  if(httpmethod==='get'){
+    return callApi(endpoint, schema).then(
+      response => next(actionWith({
+        response,
+        type: successType
+      })),
+      error => next(actionWith({
+        type: failureType,
+        error: error.message || 'Something bad happened'
+      }))
+    )
+  }
+  if(httpmethod==='post'){
+    return postApi(endpoint,{email:callAPI.email,password:callAPI.password})
+            .then(response=>next(actionWith({response,type:successType})),
+              error => next(actionWith({
+                type: failureType,
+                error: error.message || 'Something bad happened'
+              }))
+            )
+  }
 }

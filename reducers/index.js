@@ -2,6 +2,8 @@ import * as ActionTypes from '../actions';
 import { combineReducers } from 'redux';
 import merge from 'lodash/merge';
 import union from 'lodash/union'
+import { reducer as form } from 'redux-form'
+
 
 // function posts(state={items:[]},action) {
 //   switch (action.type) {
@@ -35,8 +37,25 @@ function topics(state={ids:[]},action) {
       return state
   }
 }
+const authTypes=[ActionTypes.SIGNIN_REQUEST,ActionTypes.SIGNIN_SUCCESS,ActionTypes.SIGNIN_FAILURE]
+const [SIGNIN_REQUEST,SIGNIN_SUCCESS,SIGNIN_FAILURE]=authTypes
+function auth(state={authenticated:false},action){
+  switch (action.type) {
+    case SIGNIN_SUCCESS:
+      return merge({},state,{
+        authenticated:true
+      })
+
+    default:
+      return state
+
+  }
+}
+
 const rootReducer = combineReducers({
   entities,
-  topics
+  topics,
+  form,
+  auth
 });
 export default rootReducer

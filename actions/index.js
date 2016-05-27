@@ -1,5 +1,9 @@
 import {CALL_API,Schemas} from '../middleware/api'
 
+import {browserHistory} from 'react-router'
+
+
+
 // import fetch from 'isomorphic-fetch'
 // import { Schema, arrayOf, normalize } from 'normalizr'
 // import { camelizeKeys } from 'humps'
@@ -38,6 +42,27 @@ import {CALL_API,Schemas} from '../middleware/api'
 //
 //   }
 // }
+export const SIGNIN_REQUEST = 'SIGNIN_REQUEST'
+export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS'
+export const SIGNIN_FAILURE = 'SIGNIN_FAILURE'
+
+function fetchSignIn(email,password) {
+  return{
+    [CALL_API]:{
+      types:[SIGNIN_REQUEST,SIGNIN_SUCCESS,SIGNIN_FAILURE],
+      endpoint:'https://enserver.herokuapp.com/users/login',
+      httpmethod:"post",
+      email:email,
+      password:password
+    }
+  }
+}
+
+export function signinUser(body) {
+  return (dispatch,getState)=>{
+    return dispatch(fetchSignIn(body.email,body.password))
+  }
+}
 
 export const POST_REQUEST = 'POST_REQUEST'
 export const POST_SUCCESS = 'POST_SUCCESS'
