@@ -2,17 +2,18 @@ import fetch from 'isomorphic-fetch'
 import { Schema, arrayOf, normalize } from 'normalizr'
 import { camelizeKeys } from 'humps'
 import axios from 'axios'
-
+import { browserHistory } from 'react-router'
 
 function callApi(endpoint, schema) {
 
  //debugger;
+ console.log("fetch");
   return fetch('https://enserver.herokuapp.com/topics')
         .then(respones=>respones.json())
         .then(json=>{
           const camelizedJson = camelizeKeys(json)
 //debugger;
-          //console.log(normalize(camelizedJson,schema));
+          console.log(normalize(camelizedJson,schema));
 
           return normalize(camelizedJson,schema)
         })
@@ -79,11 +80,15 @@ export default store => next => action => {
     return finalAction
   }
 
+ function pushToFeature() {
+   browserHistory.push('/feature');
+ }
   const [ requestType, successType, failureType ] = types
   next(actionWith({ type: requestType }))
 
 
   if(httpmethod==='get'){
+    console.log("calling get");
     return callApi(endpoint, schema).then(
       response => next(actionWith({
         response,
@@ -97,7 +102,11 @@ export default store => next => action => {
   }
   if(httpmethod==='post'){
     return postApi(endpoint,{email:callAPI.email,password:callAPI.password})
-            .then(response=>next(actionWith({response,type:successType})),
+            .then(response=>{
+              console.log('postApi');
+              pushToFeature();
+              next(actionWith({response,type:successType}));
+            },
               error => next(actionWith({
                 type: failureType,
                 error: error.message || 'Something bad happened'

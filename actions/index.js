@@ -60,8 +60,15 @@ function fetchSignIn(email,password) {
 
 export function signinUser(body) {
   return (dispatch,getState)=>{
+    // browserHistory.push('/feature');
     return dispatch(fetchSignIn(body.email,body.password))
   }
+}
+
+export function signoutUser() {
+  //localStorage.removeItem('token');
+
+  return { type: 'signout' };
 }
 
 export const POST_REQUEST = 'POST_REQUEST'
@@ -73,6 +80,7 @@ function fetchPosts() {
     [CALL_API]:{
       types:[POST_REQUEST,POST_SUCCESS,POST_FAILURE],
       schema:Schemas.TOPICS,
+      httpmethod:"get",
       endpoint:''
     }
   }

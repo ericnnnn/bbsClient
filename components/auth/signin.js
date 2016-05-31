@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
+import { browserHistory } from 'react-router';
 
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
     // Need to do something to log user in
     this.props.signinUser({ email, password });
   }
-
+  componentWillMount() {
+    if(this.props.auth){
+      //browserHistory.push('/feature');
+    };
+  }
   render() {
       const { handleSubmit, fields: { email, password }} = this.props;
 
@@ -26,7 +31,7 @@ class Signin extends Component {
                 <label>Password:</label>
                 <input {...password} type="password" className="form-control" />
               </fieldset>
-              
+
               <button action="submit" className="btn btn-primary">Sign in</button>
             </form>
 
@@ -40,7 +45,7 @@ class Signin extends Component {
 //export default Signin
 
 function mapStateToProps(state) {
-  return {  };
+  return { auth:state.auth.authenticated };
 }
 export default reduxForm({
   form: 'signin',

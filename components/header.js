@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 class Header extends Component {
   renderLinks() {
     //this.props.authenticated
-    if (false) {
+    if (this.props.authenticated) {
       // show a link to sign out
       return <li className="nav-item">
         <Link className="nav-link" to="/signout">Sign Out</Link>
@@ -18,6 +18,9 @@ class Header extends Component {
         </li>,
         <li className="nav-item" key={2}>
           <Link className="nav-link" to="/signup">Sign Up</Link>
+        </li>,
+        <li className="nav-item" key={3}>
+          <Link className="nav-link" to="/feature">Feature</Link>
         </li>
       ];
     }
@@ -37,7 +40,7 @@ class Header extends Component {
 
 function mapStateToProps(state) {
   return {
-  //  authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated
   };
 }
 

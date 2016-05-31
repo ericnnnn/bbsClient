@@ -45,7 +45,8 @@ function auth(state={authenticated:false},action){
       return merge({},state,{
         authenticated:true
       })
-
+    case 'signout':
+      return merge({},state,{authenticated:false})
     default:
       return state
 
