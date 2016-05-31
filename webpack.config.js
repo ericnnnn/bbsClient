@@ -16,6 +16,10 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
+  devServer: {
+    historyApiFallback: true,
+    contentBase: './'
+  },
   module: {
     loaders: [
       {

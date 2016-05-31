@@ -4,7 +4,9 @@
   "description": "Redux BBS Client",
   "scripts": {
     "start": "node server.js"
+    ,"test": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js"
   },
+
   "repository": {
     "type": "git",
     "url": "https://github.com/reactjs/redux.git"
@@ -54,5 +56,6 @@
     "webpack": "^1.9.11",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.9.1"
+    ,"webpack-dev-server": "^1.14.0"
   }
 }
