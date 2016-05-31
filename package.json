@@ -28,6 +28,7 @@
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "isomorphic-fetch": "^2.1.1",
+    "babel-preset-stage-1": "^6.1.18",
     "humps": "^0.6.0",
     "lodash": "^4.0.0",
     "normalizr": "^2.0.0",
