@@ -12,9 +12,10 @@ import Signout from './components/auth/signout';
 import Signup from './components/auth/signup';
 import Feature from './components/feature';
 import RequireAuth from './components/auth/require_auth';
+import GroupList from './components/groupList';
 
 const store = configureStore()
-
+store.dispatch({  type: 'signin' });
 
 render(
   <Provider store={store}>
@@ -25,6 +26,7 @@ render(
           <Route path="signout" component={Signout} />
           <Route path="signup" component={Signup} />
           <Route path="feature" component={RequireAuth(Feature)} />
+          <Route path="groupList" component={GroupList} />
         </Route>
       </Router>
   </Provider>,

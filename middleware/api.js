@@ -8,7 +8,7 @@ function callApi(endpoint, schema) {
 
  //debugger;
  console.log("fetch");
-  return fetch('https://enserver.herokuapp.com/topics')
+  return fetch(endpoint)
         .then(respones=>respones.json())
         .then(json=>{
           const camelizedJson = camelizeKeys(json)
@@ -33,6 +33,7 @@ function postApi(endpoint,body){
 export const topic=new Schema('topics');
 export const groupSchema =new Schema('group');
 export const userSchema=new Schema('user');
+export const group=new Schema('groups');
 topic.define({
    user:userSchema,
    group:groupSchema
@@ -41,7 +42,12 @@ topic.define({
 export const Schemas={
   TOPICS:{
           topics:arrayOf(topic)
-        }}
+        },
+  GROUPS:{
+          groups:arrayOf(group)
+        }
+
+  }
 
 export const CALL_API = Symbol('Call API')
 
@@ -104,8 +110,9 @@ export default store => next => action => {
     return postApi(endpoint,{email:callAPI.email,password:callAPI.password})
             .then(response=>{
               console.log('postApi');
-              pushToFeature();
+
               next(actionWith({response,type:successType}));
+              pushToFeature();
             },
               error => next(actionWith({
                 type: failureType,

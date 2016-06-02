@@ -37,6 +37,18 @@ function topics(state={ids:[]},action) {
       return state
   }
 }
+function groups(state={ids:[]},action) {
+  switch (action.type) {
+    case successType:
+    return merge({}, state, {
+
+        ids: union(state.ids, action.response.result.groups)
+
+      })
+    default:
+      return state
+  }
+}
 const authTypes=[ActionTypes.SIGNIN_REQUEST,ActionTypes.SIGNIN_SUCCESS,ActionTypes.SIGNIN_FAILURE]
 const [SIGNIN_REQUEST,SIGNIN_SUCCESS,SIGNIN_FAILURE]=authTypes
 function auth(state={authenticated:false},action){
@@ -47,6 +59,8 @@ function auth(state={authenticated:false},action){
       })
     case 'signout':
       return merge({},state,{authenticated:false})
+    case 'signin':
+      return merge({},state,{authenticated:true})
     default:
       return state
 
@@ -56,6 +70,7 @@ function auth(state={authenticated:false},action){
 const rootReducer = combineReducers({
   entities,
   topics,
+  groups,
   form,
   auth
 });
