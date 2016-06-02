@@ -71,3 +71,43 @@ export function loadGroupLists() {
     return dispatch(fetchGroups())
   }
 }
+
+
+function fetchTopics(groupId) {
+  return {
+    [CALL_API]:{
+      types:[POST_REQUEST,POST_SUCCESS,POST_FAILURE],
+      schema:Schemas.TOPICS,
+      httpmethod:"get",
+      endpoint:`https://enserver.herokuapp.com/topics?groupId=${groupId}`
+    }
+  }
+}
+
+export function loadTopicLists(groupId) {
+  return (dispatch,getState)=>{
+    return dispatch(fetchTopics(groupId))
+  }
+}
+
+export function selectGroup(group) {
+  //console.log('selectGroup');
+  return {
+    type: 'GROUP_SELECTED',
+    SelectedGroup: group
+  }
+}
+
+export function selectGroupD(group) {
+  return (dispatch,getState)=>{
+
+
+      return dispatch(selectGroup(group))
+
+  }
+}
+export function selectGroupWithDispatch(group) {
+
+      //loadTopicLists();
+      //selectGroupD(group);
+}

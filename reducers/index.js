@@ -30,7 +30,8 @@ function topics(state={ids:[]},action) {
     case successType:
     return merge({}, state, {
 
-        ids: union(state.ids, action.response.result.topics)
+        //ids: union(state.ids, action.response.result.topics)
+        ids: action.response.result.topics
 
       })
     default:
@@ -66,12 +67,20 @@ function auth(state={authenticated:false},action){
 
   }
 }
+function SelectedGroup(state={},action) {
+  if(action.type='GROUP_SELECTED'){
+    return merge({},state,{
+      Group:action.SelectedGroup
+    })
+  }
+}
 
 const rootReducer = combineReducers({
   entities,
   topics,
   groups,
   form,
-  auth
+  auth,
+  SelectedGroup
 });
 export default rootReducer

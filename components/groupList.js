@@ -3,7 +3,8 @@ import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadGroupLists } from '../actions'
-
+import {selectGroupWithDispatch} from '../actions'
+import { loadTopicLists } from '../actions'
 
 class GroupList extends Component {
   constructor(props) {
@@ -18,7 +19,9 @@ class GroupList extends Component {
 
     return items.map(item=>{
       return (
-        <li key={item}>
+        <li key={item}
+            onClick={()=>this.props.loadTopicLists(item)}
+          >
             {topics[item].title}
         </li>
       )
@@ -40,4 +43,4 @@ function mapStateToProps(state) {
           entities:state.entities
    };
 }
-export default connect(mapStateToProps, {loadGroupLists})(GroupList);
+export default connect(mapStateToProps, {loadGroupLists,selectGroupWithDispatch,loadTopicLists})(GroupList);
