@@ -1,6 +1,7 @@
 {
   "name": "redux-bbs-client",
   "version": "0.0.0",
+  "main": "index.js",
   "description": "Redux BBS Client",
   "scripts": {
     "start": "node server.js"
