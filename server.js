@@ -6,6 +6,14 @@ var config = require('./webpack.config')
 var app = new (require('express'))()
 var port = process.env.PORT || 8080;
 
+app.use(function (req, res, next){
+  if (req.headers['x-forwarded-proto'] === 'http') {
+    next();
+  } else {
+    res.redirect('http://' + req.hostname + req.url);
+  }
+});
+
 var compiler = webpack(config)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
