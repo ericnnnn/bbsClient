@@ -20,7 +20,7 @@ class GroupList extends Component {
     return items.map(item=>{
       return (
         <li key={item}
-            onClick={()=>this.props.loadTopicLists(item)}
+            onClick={()=>this.props.selectGroupWithDispatch(item)}
           >
             {topics[item].title}
         </li>

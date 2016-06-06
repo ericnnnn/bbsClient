@@ -11,9 +11,11 @@ function callApi(endpoint, schema) {
   return fetch(endpoint)
         .then(respones=>respones.json())
         .then(json=>{
+
+          console.log(json);
           const camelizedJson = camelizeKeys(json)
 //debugger;
-          console.log(normalize(camelizedJson,schema));
+          console.log('normalized object:'+normalize(camelizedJson,schema));
 
           return normalize(camelizedJson,schema)
         })
@@ -61,6 +63,7 @@ export const Schemas={
 export const CALL_API = Symbol('Call API')
 
 export default store => next => action => {
+
   const callAPI = action[CALL_API]
   if (typeof callAPI === 'undefined') {
     return next(action)
@@ -79,7 +82,7 @@ export default store => next => action => {
     throw new Error('Specify a string endpoint URL.')
   }
   if (httpmethod==='get'&&!schema) {
-    console.log(callAPI);
+    //console.log(callAPI);
     throw new Error('Specify one of the exported Schemas.')
   }
   if (!Array.isArray(types) || types.length !== 3) {
@@ -103,7 +106,7 @@ export default store => next => action => {
 
 
   if(httpmethod==='get'){
-    console.log("calling get");
+    console.log("calling get:" +schema);
     return callApi(endpoint, schema).then(
       response => next(actionWith({
         response,

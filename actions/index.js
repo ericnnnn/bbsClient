@@ -86,6 +86,9 @@ function fetchTopics(groupId) {
 
 export function loadTopicLists(groupId) {
   return (dispatch,getState)=>{
+    // if(!getState.selectGroup.group){
+    //   dispatch(selectGroup(groupId))
+    // }
     return dispatch(fetchTopics(groupId))
   }
 }
@@ -96,7 +99,7 @@ function fetchContent(groupId,topicId) {
       types:[POST_REQUEST,POST_SUCCESS,POST_FAILURE],
       schema:Schemas.CONTENTS,
       httpmethod:"get",
-      endpoint:`https://enserver.herokuapp.com/topics?groupId=${groupId}&topicId=${topicId}`
+      endpoint:`https://enserver.herokuapp.com/contents?groupId=${groupId}&topicId=${topicId}`
     }
   }
 }
@@ -110,11 +113,12 @@ export function loadContent(groupId,topicId) {
 
 
 
-export function selectGroup(group) {
-  //console.log('selectGroup');
+export function selectGroup(groupId) {
+  console.log('selectGroup:'+groupId);
   return {
-    type: 'GROUP_SELECTED',
-    SelectedGroup: group
+
+      type: 'GROUP_SELECTED',
+      SelectedGroup:groupId
   }
 }
 
@@ -123,7 +127,17 @@ export function selectGroupD(group) {
       return dispatch(selectGroup(group))
   }
 }
-export function selectGroupWithDispatch(group) {
-      //loadTopicLists();
-      //selectGroupD(group);
+export function selectGroupWithDispatch(groupId) {
+
+  // selectGroupD(group);
+  // loadTopicLists(group);
+
+
+  return (dispatch,getState)=>{
+    // if(!getState.selectGroup.group){
+    //   dispatch(selectGroup(groupId))
+    // }
+    dispatch(selectGroup(groupId));
+    return dispatch(fetchTopics(groupId))
+  }
 }
