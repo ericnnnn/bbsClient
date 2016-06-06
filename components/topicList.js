@@ -22,7 +22,7 @@ class TopicList extends Component {
     return items.map(item=>{
       return (
         <li key={item}
-             onClick={()=>this.props.loadContent(item,groupId)
+             onClick={()=>this.props.loadContent(groupId,item)
                      }
           >
             {topics[item].title}

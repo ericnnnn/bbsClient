@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { loadPost } from '../actions'
 import GroupList from './groupList';
 import TopicList from './topicList';
+import Content from './content';
 
 class Feature extends Component {
 
@@ -11,6 +12,7 @@ class Feature extends Component {
       <div>
         <GroupList></GroupList>
         <TopicList></TopicList>
+        <Content></Content>
       </div>
     );
   }
