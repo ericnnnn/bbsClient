@@ -25,6 +25,16 @@ function entities(state = { topics: {}, group: {},  user:{} }, action) {
 const types=[ActionTypes.POST_REQUEST,ActionTypes.POST_SUCCESS,ActionTypes.POST_FAILURE]
 const [ requestType, successType, failureType ] = types
 
+function contents(state={ids:[]},action) {
+  switch (action.type) {
+    case successType:
+    return merge({}, state, {
+        ids: action.response.result.contents
+      })
+    default:
+      return state
+  }
+}
 function topics(state={ids:[]},action) {
   switch (action.type) {
     case successType:
@@ -77,6 +87,7 @@ function SelectedGroup(state={},action) {
 
 const rootReducer = combineReducers({
   entities,
+  contents,
   topics,
   groups,
   form,

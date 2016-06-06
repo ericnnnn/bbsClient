@@ -90,6 +90,26 @@ export function loadTopicLists(groupId) {
   }
 }
 
+function fetchContent(groupId,topicId) {
+  return {
+    [CALL_API]:{
+      types:[POST_REQUEST,POST_SUCCESS,POST_FAILURE],
+      schema:Schemas.CONTENTS,
+      httpmethod:"get",
+      endpoint:`https://enserver.herokuapp.com/topics?groupId=${groupId}&topicId=${topicId}`
+    }
+  }
+}
+export function loadContent(groupId,topicId) {
+  return (dispatch,getState)=>{
+    return dispatch(fetchContent(groupId,topicId))
+  }
+}
+
+
+
+
+
 export function selectGroup(group) {
   //console.log('selectGroup');
   return {
@@ -100,14 +120,10 @@ export function selectGroup(group) {
 
 export function selectGroupD(group) {
   return (dispatch,getState)=>{
-
-
       return dispatch(selectGroup(group))
-
   }
 }
 export function selectGroupWithDispatch(group) {
-
       //loadTopicLists();
       //selectGroupD(group);
 }

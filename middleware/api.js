@@ -33,18 +33,27 @@ function postApi(endpoint,body){
 export const topic=new Schema('topics');
 export const groupSchema =new Schema('group');
 export const userSchema=new Schema('user');
+export const topicSchema=new Schema('topic');
 export const group=new Schema('groups');
+export const content=new Schema('contents');
 topic.define({
    user:userSchema,
    group:groupSchema
  });
-
+content.define({
+  user:userSchema,
+  group:groupSchema,
+  topic:topicSchema
+});
 export const Schemas={
   TOPICS:{
           topics:arrayOf(topic)
         },
   GROUPS:{
           groups:arrayOf(group)
+        },
+  CONTENTS:{
+          contents:arrayOf(content)
         }
 
   }
