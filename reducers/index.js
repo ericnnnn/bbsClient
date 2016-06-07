@@ -27,10 +27,21 @@ const [ requestType, successType, failureType ] = types
 
 function contents(state={ids:[]},action) {
   switch (action.type) {
-    case successType:
-    return merge({}, state, {
-        ids: action.response.result.contents
+    case 'GROUP_SELECTED':
+      return merge({}, state, {
+          ids: null
       })
+    case successType:
+    if(action.response.result.contents&&action.response.result.contents.length===0){
+      return merge({}, state, {
+          ids: null
+      })
+    }else{
+      return merge({}, state, {
+          ids: action.response.result.contents
+      })
+    }
+
     default:
       return state
   }
@@ -38,12 +49,17 @@ function contents(state={ids:[]},action) {
 function topics(state={ids:[]},action) {
   switch (action.type) {
     case successType:
-    return merge({}, state, {
-
-        //ids: union(state.ids, action.response.result.topics)
-        ids: action.response.result.topics
-
-      })
+    //console.log('topics:'+action.response.result.topics);
+    if(action.response.result.topics&&action.response.result.topics.length===0){
+      //console.log('topics blank')
+      return merge({}, state, {
+          ids: null
+        })
+    }else{
+      return merge({}, state, {
+          ids: action.response.result.topics
+        })
+    }
     default:
       return state
   }
@@ -79,12 +95,20 @@ function auth(state={authenticated:false},action){
 }
 function SelectedGroup(state={},action) {
   if(action.type='GROUP_SELECTED'){
+    return merge({},state,
+      {
+        Group:action.SelectedGroup
+      }
+    )
+  }
+}
+function SelectedTopic(state={},action) {
+  if(action.type='TOPIC_SELECTED'){
     return merge({},state,{
-      Group:action.SelectedGroup
+      Topic:action.SelectedTopic
     })
   }
 }
-
 const rootReducer = combineReducers({
   entities,
   contents,
@@ -92,6 +116,7 @@ const rootReducer = combineReducers({
   groups,
   form,
   auth,
-  SelectedGroup
+  SelectedGroup,
+  SelectedTopic
 });
 export default rootReducer

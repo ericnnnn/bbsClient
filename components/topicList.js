@@ -4,6 +4,8 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadTopicLists } from '../actions'
 import { loadContent } from '../actions'
+import { topicClick } from '../actions'
+
 
 
 
@@ -14,21 +16,27 @@ class TopicList extends Component {
     this.renderList=this.renderList.bind(this)
   }
   componentWillMount() {
-  console.log('loading topic list');
+  //console.log('loading topic list');
   //this.props.loadTopicLists(this.props.selectGroup);
+
   }
   renderList(items,topics,groupId){
 
-    return items.map(item=>{
-      return (
-        <li key={item}
-             onClick={()=>this.props.loadContent(groupId,item)
-                     }
-          >
-            {topics[item].title}
-        </li>
+    if(!items){
+      return
+    }else{
+      return items.map(item=>{
+          return (
+            <li key={item}
+                 onClick={()=>this.props.topicClick(groupId,item)
+                         }
+              >
+                {topics[item].title}
+            </li>
+          )
+        }
       )
-    })
+    }
   }
   render() {
     return (
@@ -47,4 +55,4 @@ function mapStateToProps(state) {
           selectGroup:state.SelectedGroup.Group
    };
 }
-export default connect(mapStateToProps, {loadTopicLists,loadContent})(TopicList);
+export default connect(mapStateToProps, {loadTopicLists,loadContent,topicClick})(TopicList);

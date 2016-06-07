@@ -18,20 +18,26 @@ class Content extends Component {
   }
   renderList(items,topics,groupId){
 
-    return items.map(item=>{
-      return (
-        <li key={item}
+    if(!items){
+      return
+    }else{
+      return items.map(item=>{
+        return (
+          <li key={item}
 
-          >
-            {topics[item].content}
-        </li>
-      )
-    })
+            >
+              {topics[item].content}
+          </li>
+        )
+      })
+    }
+
   }
   render() {
     return (
       <div>
         <ul>
+        
         {this.renderList(this.props.contentids,this.props.entities.contents)}
         </ul>
       </div>
@@ -42,7 +48,8 @@ class Content extends Component {
 function mapStateToProps(state) {
   return { contentids:state.contents.ids,
           entities:state.entities,
-          selectGroup:state.SelectedGroup.Group
+          selectGroup:state.SelectedGroup.Group,
+          selectTopic:state.SelectedTopic.Topic
    };
 }
 export default connect(mapStateToProps)(Content);

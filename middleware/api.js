@@ -7,15 +7,16 @@ import { browserHistory } from 'react-router'
 function callApi(endpoint, schema) {
 
  //debugger;
- console.log("fetch");
+ //console.log("fetch");
   return fetch(endpoint)
         .then(respones=>respones.json())
         .then(json=>{
 
           console.log(json);
+          //console.log("json's length:"+length(json));
           const camelizedJson = camelizeKeys(json)
 //debugger;
-          console.log('normalized object:'+normalize(camelizedJson,schema));
+          //console.log('normalized object:'+normalize(camelizedJson,schema));
 
           return normalize(camelizedJson,schema)
         })
@@ -26,7 +27,7 @@ function callApi(endpoint, schema) {
 function postApi(endpoint,body){
   return axios.post(endpoint,body)
       .then(response=>{
-        console.log(response);
+        //console.log(response);
         //return response.headers.Auth
         return response.data.id
       })
@@ -93,6 +94,8 @@ export default store => next => action => {
   }
 
   function actionWith(data) {
+    //console.log('action:'+action);
+    //console.log('action data:'+data.response);
     const finalAction = Object.assign({}, action, data)
     delete finalAction[CALL_API]
     return finalAction
@@ -106,12 +109,16 @@ export default store => next => action => {
 
 
   if(httpmethod==='get'){
-    console.log("calling get:" +schema);
+    //console.log("calling get:" +schema);
     return callApi(endpoint, schema).then(
-      response => next(actionWith({
-        response,
-        type: successType
-      })),
+      response => {
+        //console.log('response:'+response.result.topics);
+      next(
+          actionWith({
+          response,
+          type: successType
+        })
+      )},
       error => next(actionWith({
         type: failureType,
         error: error.message || 'Something bad happened'

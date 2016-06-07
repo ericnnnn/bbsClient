@@ -86,9 +86,6 @@ function fetchTopics(groupId) {
 
 export function loadTopicLists(groupId) {
   return (dispatch,getState)=>{
-    // if(!getState.selectGroup.group){
-    //   dispatch(selectGroup(groupId))
-    // }
     return dispatch(fetchTopics(groupId))
   }
 }
@@ -105,39 +102,40 @@ function fetchContent(groupId,topicId) {
 }
 export function loadContent(groupId,topicId) {
   return (dispatch,getState)=>{
-    return dispatch(fetchContent(groupId,topicId))
+    return dispatch(fetchContent(groupId,getState().SelectedTopic.Topic))
   }
 }
 
-
-
-
-
+export function topicClick(groupId,topicId) {
+  return (dispatch,getState)=>{
+    dispatch(selectTopic(topicId));
+    return dispatch(fetchContent(getState().SelectedGroup.Group,getState().SelectedTopic.Topic))
+  }
+}
 export function selectGroup(groupId) {
-  console.log('selectGroup:'+groupId);
+  //console.log('selectGroup:'+groupId);
   return {
-
       type: 'GROUP_SELECTED',
       SelectedGroup:groupId
   }
 }
 
-export function selectGroupD(group) {
-  return (dispatch,getState)=>{
-      return dispatch(selectGroup(group))
+export function selectTopic(topicId) {
+  return {
+    type: 'TOPIC_SELECTED',
+    SelectedTopic:topicId
   }
 }
+
+// export function selectGroupD(group) {
+//   return (dispatch,getState)=>{
+//       return dispatch(selectGroup(group))
+//   }
+// }
 export function selectGroupWithDispatch(groupId) {
-
-  // selectGroupD(group);
-  // loadTopicLists(group);
-
-
   return (dispatch,getState)=>{
-    // if(!getState.selectGroup.group){
-    //   dispatch(selectGroup(groupId))
-    // }
     dispatch(selectGroup(groupId));
+    dispatch(selectTopic(null));
     return dispatch(fetchTopics(groupId))
   }
 }

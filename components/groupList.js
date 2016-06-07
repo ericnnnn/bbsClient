@@ -12,7 +12,7 @@ class GroupList extends Component {
     this.renderList=this.renderList.bind(this)
   }
   componentWillMount() {
-  console.log('loading group list');
+  //console.log('loading group list');
   this.props.loadGroupLists();
   }
   renderList(items,topics){
