@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
@@ -24,7 +23,6 @@ class Content extends Component {
       return items.map(item=>{
         return (
           <li key={item}
-
             >
               {topics[item].content}
           </li>
@@ -37,7 +35,7 @@ class Content extends Component {
     return (
       <div>
         <ul>
-        
+
         {this.renderList(this.props.contentids,this.props.entities.contents)}
         </ul>
       </div>
