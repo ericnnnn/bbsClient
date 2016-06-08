@@ -23,9 +23,7 @@ class Content extends Component {
     }else{
       return items.map(item=>{
         return (
-          <li key={item}
-
-            >
+          <li key={item}>
               {topics[item].content}
           </li>
         )
@@ -37,8 +35,7 @@ class Content extends Component {
     return (
       <div>
         <ul>
-        
-        {this.renderList(this.props.contentids,this.props.entities.contents)}
+          {this.renderList(this.props.contentids,this.props.entities.contents)}
         </ul>
       </div>
     );
