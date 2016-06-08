@@ -14,6 +14,7 @@ import Feature from './components/feature';
 import RequireAuth from './components/auth/require_auth';
 import GroupList from './components/groupList';
 import TopicList from './components/topicList';
+import Content from './components/content';
 
 const store = configureStore()
 store.dispatch({  type: 'signin' });
@@ -29,6 +30,7 @@ render(
           <Route path="feature" component={RequireAuth(Feature)} />
           <Route path="groupList" component={GroupList} />
           <Route path="topicList" component={TopicList} />
+          <Route path="content" component={Content} />
         </Route>
       </Router>
   </Provider>,

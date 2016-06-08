@@ -32,6 +32,7 @@ function contents(state={ids:[]},action) {
           ids: null
       })
     case successType:
+    console.log('content reducer')
     if(action.response.result.contents&&action.response.result.contents.length===0){
       return merge({}, state, {
           ids: null

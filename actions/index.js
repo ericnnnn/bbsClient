@@ -139,3 +139,30 @@ export function selectGroupWithDispatch(groupId) {
     return dispatch(fetchTopics(groupId))
   }
 }
+
+function postContent({content},groupId,topicId) {
+  // console.log({
+  //     groupId,
+  //     topicId,
+  //     content
+  // });
+  return{
+    [CALL_API]:{
+      types:['POSTCONTENT_REQUEST','POSTCONTENT_SUCCESS','POSTCONTENT_FAILURE'],
+      endpoint:'https://enserver.herokuapp.com/contents',
+      httpmethod:"postContent",
+      schema:Schemas.CONTENTS,
+      body:{
+          groupId,
+          topicId,
+          content
+      }
+    }
+  }
+}
+export function submitContent(props) {
+  return (dispatch,getState)=>{
+      //console.log(props,getState().SelectedGroup.Group,getState().SelectedTopic.Topic);
+      return dispatch(postContent(props,getState().SelectedGroup.Group,getState().SelectedTopic.Topic))
+  }
+}

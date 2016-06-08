@@ -41,6 +41,7 @@ class TopicList extends Component {
   render() {
     return (
       <div>
+        <h5>Topics</h5>
         <ul>
         {this.renderList(this.props.topicids,this.props.entities.topics,this.props.selectGroup)}
         </ul>

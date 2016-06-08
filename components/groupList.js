@@ -30,6 +30,7 @@ class GroupList extends Component {
   render() {
     return (
       <div>
+        <h5>Groups</h5>
         <ul>
         {this.renderList(this.props.groupids,this.props.entities.groups)}
         </ul>

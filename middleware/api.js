@@ -25,12 +25,35 @@ function callApi(endpoint, schema) {
 }
 
 function postApi(endpoint,body){
+  console.log(body);
   return axios.post(endpoint,body)
       .then(response=>{
         //console.log(response);
         //return response.headers.Auth
         return response.data.id
       })
+}
+function postApiContent(endpoint,body,schema){
+
+  return axios.post(endpoint,body,{headers:{'auth':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6IlUyRnNkR1ZrWDEraTA4eWZVaUlITXZabEppNnZBN2puM3YwUU45UjQzMFl2Y3dTV0lmdE9lNW5MUVRQdGU2YTdqZjJ1Y215eEQwcVhxR1NxRC9QdGRnPT0iLCJpYXQiOjE0NjUzOTcwNjZ9.Y6WisAWJmR3ct_YuuKmoi18q8nS9FhyGkehHxc2-IGo'}})
+      // .then(response=>{
+      //   console.log(response);
+      //   //return response.headers.Auth
+      //   //return response.data
+      // })
+      //.then(respones=>respones.json())
+      .then(json=>{
+
+        //console.log(json);
+        //console.log("json's length:"+length(json));
+        const camelizedJson = camelizeKeys(json)
+//debugger;
+        //console.log('normalized object:'+normalize(camelizedJson,schema));
+
+        return normalize(camelizedJson,schema)
+      })
+
+      .catch(e=>console.log(e))
 }
 
 export const topic=new Schema('topics');
@@ -94,10 +117,12 @@ export default store => next => action => {
   }
 
   function actionWith(data) {
-    //console.log('action:'+action);
-    //console.log('action data:'+data.response);
+    console.log('action:'+action);
+    console.log('action data:'+data);
     const finalAction = Object.assign({}, action, data)
     delete finalAction[CALL_API]
+
+    console.log('finalAction:'+finalAction);
     return finalAction
   }
 
@@ -105,6 +130,7 @@ export default store => next => action => {
    browserHistory.push('/feature');
  }
   const [ requestType, successType, failureType ] = types
+
   next(actionWith({ type: requestType }))
 
 
@@ -128,10 +154,25 @@ export default store => next => action => {
   if(httpmethod==='post'){
     return postApi(endpoint,{email:callAPI.email,password:callAPI.password})
             .then(response=>{
-              console.log('postApi');
+              //console.log('postApi');
 
               next(actionWith({response,type:successType}));
               pushToFeature();
+            },
+              error => next(actionWith({
+                type: failureType,
+                error: error.message || 'Something bad happened'
+              }))
+            )
+  }
+  if(httpmethod==='postContent'){
+    //console.log(callAPI.body);
+    return postApiContent(endpoint,callAPI.body,schema)
+            .then(response=>{
+              console.log('post content response:'+response +' successType:'+successType);
+
+              next(actionWith({response,type:successType}));
+
             },
               error => next(actionWith({
                 type: failureType,

@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import {loadContent} from '../actions'
+import ComposeContent from './composeContent'
 
 
 
@@ -34,9 +34,11 @@ class Content extends Component {
   render() {
     return (
       <div>
+        <h5>Posts</h5>
         <ul>
           {this.renderList(this.props.contentids,this.props.entities.contents)}
         </ul>
+        <ComposeContent></ComposeContent>
       </div>
     );
   }
