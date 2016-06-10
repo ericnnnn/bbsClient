@@ -12,7 +12,7 @@ function callApi(endpoint, schema) {
         .then(respones=>respones.json())
         .then(json=>{
 
-          console.log(json);
+          //console.log(json);
           //console.log("json's length:"+length(json));
           const camelizedJson = camelizeKeys(json)
 //debugger;
@@ -25,7 +25,7 @@ function callApi(endpoint, schema) {
 }
 
 function postApi(endpoint,body){
-  console.log(body);
+  //console.log(body);
   return axios.post(endpoint,body)
       .then(response=>{
         //console.log(response);
@@ -36,12 +36,13 @@ function postApi(endpoint,body){
 function postApiContent(endpoint,body,schema){
 
   return axios.post(endpoint,body,{headers:{'auth':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6IlUyRnNkR1ZrWDEraTA4eWZVaUlITXZabEppNnZBN2puM3YwUU45UjQzMFl2Y3dTV0lmdE9lNW5MUVRQdGU2YTdqZjJ1Y215eEQwcVhxR1NxRC9QdGRnPT0iLCJpYXQiOjE0NjUzOTcwNjZ9.Y6WisAWJmR3ct_YuuKmoi18q8nS9FhyGkehHxc2-IGo'}})
-      // .then(response=>{
-      //   console.log(response);
-      //   //return response.headers.Auth
-      //   //return response.data
-      // })
-      //.then(respones=>respones.json())
+      .then(response=>{
+        //console.log(response);
+        //return response.headers.Auth
+        //console.log({contents:[response.data]});
+        return {contents:[response.data]};
+      })
+      //.then(respones=>respones.data.json())
       .then(json=>{
 
         //console.log(json);
@@ -89,7 +90,9 @@ export const CALL_API = Symbol('Call API')
 export default store => next => action => {
 
   const callAPI = action[CALL_API]
+  //console.log(action);
   if (typeof callAPI === 'undefined') {
+    //console.log('callAPI undefined');
     return next(action)
   }
 
@@ -117,12 +120,12 @@ export default store => next => action => {
   }
 
   function actionWith(data) {
-    console.log('action:'+action);
-    console.log('action data:'+data);
+    //console.log('action:'+action);
+    //console.log('action data:'+data);
     const finalAction = Object.assign({}, action, data)
     delete finalAction[CALL_API]
 
-    console.log('finalAction:'+finalAction);
+    //console.log('finalAction:'+finalAction);
     return finalAction
   }
 
@@ -169,7 +172,7 @@ export default store => next => action => {
     //console.log(callAPI.body);
     return postApiContent(endpoint,callAPI.body,schema)
             .then(response=>{
-              console.log('post content response:'+response +' successType:'+successType);
+              //console.log('post content response:'+response +' successType:'+successType);
 
               next(actionWith({response,type:successType}));
 

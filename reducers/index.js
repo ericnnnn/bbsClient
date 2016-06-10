@@ -33,16 +33,25 @@ function contents(state={ids:[]},action) {
       })
     case successType:
     console.log('content reducer')
-    if(action.response.result.contents&&action.response.result.contents.length===0){
-      return merge({}, state, {
-          ids: null
-      })
-    }else{
-      return merge({}, state, {
-          ids: action.response.result.contents
-      })
-    }
-
+      if(action.response.result.contents&&action.response.result.contents.length===0){
+        return merge({}, state, {
+            ids: null
+        })
+      }else{
+        return merge({}, state, {
+            ids: action.response.result.contents
+        })
+      }
+    case 'POSTCONTENT_SUCCESS':
+      if(action.response.result.contents&&action.response.result.contents.length===0){
+        return merge({}, state, {
+            ids: null
+        })
+      }else{
+        return merge({}, state, {
+            ids: union(state.ids,action.response.result.contents)
+        })
+      }
     default:
       return state
   }
@@ -110,6 +119,8 @@ function SelectedTopic(state={},action) {
     })
   }
 }
+
+
 const rootReducer = combineReducers({
   entities,
   contents,
