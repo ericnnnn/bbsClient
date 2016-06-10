@@ -11,13 +11,14 @@ class ComposeContent extends Component {
 
   onSubmit(props) {
      this.props.submitContent(props);
+     this.props.resetForm();
     //   .then(() => {
     //         this.context.router.push('/');
     //   });
   }
 
   render() {
-    const { fields: { content }, handleSubmit } = this.props;
+    const { fields: { content }, handleSubmit,resetForm } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>

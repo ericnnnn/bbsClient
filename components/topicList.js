@@ -1,12 +1,11 @@
-
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadTopicLists } from '../actions'
 import { loadContent } from '../actions'
 import { topicClick } from '../actions'
-
-
+import ComposeTopic from './composeTopic'
+import { browserHistory } from 'react-router'
 
 
 
@@ -28,7 +27,10 @@ class TopicList extends Component {
       return items.map(item=>{
           return (
             <li key={item}
-                 onClick={()=>this.props.topicClick(groupId,item)
+                 onClick={()=>{
+                              this.props.topicClick(groupId,item);
+                              browserHistory.push('/content');
+                            }
                          }
               >
                 {topics[item].title}
@@ -45,6 +47,7 @@ class TopicList extends Component {
         <ul>
         {this.renderList(this.props.topicids,this.props.entities.topics,this.props.selectGroup)}
         </ul>
+        <ComposeTopic></ComposeTopic>
       </div>
     );
   }

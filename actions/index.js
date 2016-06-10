@@ -166,3 +166,25 @@ export function submitContent(props) {
       return dispatch(postContent(props,getState().SelectedGroup.Group,getState().SelectedTopic.Topic))
   }
 }
+
+function postTopic({topic},groupId) {
+
+  return{
+    [CALL_API]:{
+      types:['POSTTOPIC_REQUEST','POSTTOPIC_SUCCESS','POSTTOPIC_FAILURE'],
+      endpoint:'https://enserver.herokuapp.com/topics',
+      httpmethod:"postTopic",
+      schema:Schemas.TOPICS,
+      body:{
+          groupId,
+          title:topic
+      }
+    }
+  }
+}
+export function submitTopic(props) {
+  return (dispatch,getState)=>{
+    //console.log(props,getState().SelectedGroup.Group);
+    return dispatch(postTopic(props,getState().SelectedGroup.Group))
+  }
+}

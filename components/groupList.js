@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { loadGroupLists } from '../actions'
 import {selectGroupWithDispatch} from '../actions'
 import { loadTopicLists } from '../actions'
+import { browserHistory } from 'react-router'
 
 class GroupList extends Component {
   constructor(props) {
@@ -20,7 +21,10 @@ class GroupList extends Component {
     return items.map(item=>{
       return (
         <li key={item}
-            onClick={()=>this.props.selectGroupWithDispatch(item)}
+            onClick={()=>{
+                    this.props.selectGroupWithDispatch(item)
+                    browserHistory.push('/TopicList');
+                    }}
           >
             {topics[item].title}
         </li>

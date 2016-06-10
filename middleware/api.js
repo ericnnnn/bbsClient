@@ -33,6 +33,7 @@ function postApi(endpoint,body){
         return response.data.id
       })
 }
+
 function postApiContent(endpoint,body,schema){
 
   return axios.post(endpoint,body,{headers:{'auth':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6IlUyRnNkR1ZrWDEraTA4eWZVaUlITXZabEppNnZBN2puM3YwUU45UjQzMFl2Y3dTV0lmdE9lNW5MUVRQdGU2YTdqZjJ1Y215eEQwcVhxR1NxRC9QdGRnPT0iLCJpYXQiOjE0NjUzOTcwNjZ9.Y6WisAWJmR3ct_YuuKmoi18q8nS9FhyGkehHxc2-IGo'}})
@@ -41,6 +42,31 @@ function postApiContent(endpoint,body,schema){
         //return response.headers.Auth
         //console.log({contents:[response.data]});
         return {contents:[response.data]};
+      })
+      //.then(respones=>respones.data.json())
+      .then(json=>{
+
+        //console.log(json);
+        //console.log("json's length:"+length(json));
+        const camelizedJson = camelizeKeys(json)
+//debugger;
+        //console.log('normalized object:'+normalize(camelizedJson,schema));
+
+        return normalize(camelizedJson,schema)
+      })
+
+      .catch(e=>console.log(e))
+}
+
+
+function postApiTopic(endpoint,body,schema){
+
+  return axios.post(endpoint,body,{headers:{'auth':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6IlUyRnNkR1ZrWDEraTA4eWZVaUlITXZabEppNnZBN2puM3YwUU45UjQzMFl2Y3dTV0lmdE9lNW5MUVRQdGU2YTdqZjJ1Y215eEQwcVhxR1NxRC9QdGRnPT0iLCJpYXQiOjE0NjUzOTcwNjZ9.Y6WisAWJmR3ct_YuuKmoi18q8nS9FhyGkehHxc2-IGo'}})
+      .then(response=>{
+        //console.log(response);
+        //return response.headers.Auth
+        //console.log({contents:[response.data]});
+        return {topics:[response.data]};
       })
       //.then(respones=>respones.data.json())
       .then(json=>{
@@ -171,6 +197,21 @@ export default store => next => action => {
   if(httpmethod==='postContent'){
     //console.log(callAPI.body);
     return postApiContent(endpoint,callAPI.body,schema)
+            .then(response=>{
+              //console.log('post content response:'+response +' successType:'+successType);
+
+              next(actionWith({response,type:successType}));
+
+            },
+              error => next(actionWith({
+                type: failureType,
+                error: error.message || 'Something bad happened'
+              }))
+            )
+  }
+  if(httpmethod==='postTopic'){
+    //console.log(callAPI.body);
+    return postApiTopic(endpoint,callAPI.body,schema)
             .then(response=>{
               //console.log('post content response:'+response +' successType:'+successType);
 

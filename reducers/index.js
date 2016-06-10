@@ -70,6 +70,17 @@ function topics(state={ids:[]},action) {
           ids: action.response.result.topics
         })
     }
+
+    case 'POSTTOPIC_SUCCESS':
+      if(action.response.result.topics&&action.response.result.topics.length===0){
+        return merge({}, state, {
+            ids: null
+        })
+      }else{
+        return merge({}, state, {
+            ids: union(state.ids,action.response.result.topics)
+        })
+      }
     default:
       return state
   }
